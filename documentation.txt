@@ -1,0 +1,30 @@
+This file contains simple documentation and descriptions of all functions used in the SerialDriver class, implemented in main.py.
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+The SerialDriver class simulates a simple serial driver that can process incoming packets and return a response packet based on the packet received.
+The class incorporates the use of an external function, checksum(packet), to verify packets.
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+Function: Checksum()
+  Arguments: packet, a byte string.
+  Output: The BSD checksum of the packet, in hexidecimal.
+  Function: This function uses a BSD algorithm (based on the algorithm available on wikipedia) to determine the BSD checksum   
+    of a bytestring, packet. This function is modified such that the checksum is trimmed to a single byte.
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+Function: SerialDriver.send(data)
+  Arguments: A byte string, data.
+  Output: None
+  Function: This class function updates the internal message buffer with a new message (data). If the message is a valid 
+    heartbeat packet, then the heartbeat timer will be reset, and the driver will be unkilled.
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+Function: SerialDriver.receive()
+  Arguments: None.
+  Output: A byte string, bytes.
+  Function. This class function governs the response to all packets, excluding the heartbeat message (see 
+    SerialDriver.send(data)). This function will verify the length, message type, and checksum of the message in the buffer, 
+    and then respond accordingly. The expected responses are described in the instructions.txt file.
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+Function: SerialDriver.heartbeat()
+  Arguments: None
+  Output: None
+  Function: This class function governs the heartbeat timer. This function runs as a thread, and compares the current time   
+    to the last heartbeat. If the difference in time exceeds 1 second, the kill status is set. This thread also sets the 
+    thrusters to 0.0 when killed, and restores the thrusters when unkilled.
