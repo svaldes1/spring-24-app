@@ -222,6 +222,8 @@ async def main():
     # 0x04 - packet type
     # 0x1B - checksum
     await driver.send(b"\x47\x44\x04\x1B")
-    print("Program Complete")
+
+    # This line can be uncommented to demonstrate the runtime of the application.
+    # print("Program Complete")
 if __name__ == "__main__":
     asyncio.run(main())
